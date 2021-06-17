@@ -1,70 +1,156 @@
-import React , { useState } from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import { Layout, Menu } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
+import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
-import './AppRouter.css';
+} from "@ant-design/icons";
+import MenuItem from "antd/lib/menu/MenuItem";
+import "./AppRouter.css";
 
-import {Landing} from '../pages/Landing/Landing'
-
+import { Landing } from "../pages/Landing/Landing";
+import { LogIn } from "../pages/LogIn/LogIn";
 
 const { Header, Sider, Content } = Layout;
 
 export const AppRouter = () => {
-  const [collapsed, setCollapsed] = useState(true);
-  // const [isLanding, setIsLanding] = useState(true);
+  const history = useHistory();
 
+  //--------------------------------------STATE MANAGEMENT START-----------------------------------------------------------//
+
+  const [collapsed, setCollapsed] = useState(false);
+  const [isLanding, setIsLanding] = useState(true);
+  const [user, setUser] = useState({ type: "none", isAuth: false });
+
+  //useEffect to set the states from local storage
+  useEffect(() => {
+    if (history.location.pathname !== "/") {
+      const localUser = window.localStorage.getItem("user");
+
+      if (localUser !== null) {
+        setUser(JSON.parse(localUser));
+      }
+
+      const landingStatus = window.localStorage.getItem("isLanding");
+
+      if (landingStatus !== null) {
+        setIsLanding(JSON.parse(landingStatus));
+      }
+    }
+  }, []);
+
+  //useEffect to set User State on local storage
+  useEffect(() => {
+    window.localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
+
+  //useEffect to set Landing Status on local storage
+  useEffect(() => {
+    window.localStorage.setItem("isLanding", isLanding);
+  }, [isLanding]);
+
+  //--------------------------------------------STATE MANAGEMENT END----------------------------------------------------//
 
   const toggle = () => {
     setCollapsed(!collapsed);
+  };
+
+  const menuItemClickHandler = (userType) => {
+    if (isLanding) {
+      setUser({
+        ...user,
+        type: userType,
+        isAuth: false,
+      });
+      history.push("/login");
+    }
+  };
+
+  let menuItems = [];
+
+  if (isLanding) {
+    menuItems = [
+      {
+        key: 1,
+        icon: <UserOutlined />,
+        text: "LogIn as Admin",
+        value: "admin",
+      },
+      {
+        key: 2,
+        icon: <UserOutlined />,
+        text: "LogIn as Alumni",
+        value: "alumni",
+      },
+      {
+        key: 3,
+        icon: <UserOutlined />,
+        text: "LogIn as Student",
+        value: "student",
+      },
+    ];
   }
 
   return (
-    <BrowserRouter>
-      <Layout>
-        <Sider onCollapse={toggle} collapsible collapsed={collapsed} defaultCollapsed={true} theme='dark' >
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" >
-            <Menu.Item key="1" icon={<UserOutlined />}  >
-              nav 1
-            </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-              nav 2
-            </Menu.Item>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
-              nav 3
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout className="site-layout">
-          <Header className="site-header " style={{ padding: 0}}>
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-              className: 'trigger',
+    <Layout>
+      <Sider onCollapse={toggle} collapsible collapsed={collapsed} theme="dark">
+        <div className="logo" />
+        <Menu theme="dark" mode="inline">
+          {menuItems.map((item) => {
+            return (
+              <MenuItem
+                key={item.key}
+                icon={item.icon}
+                onClick={() => menuItemClickHandler(item.value)}
+              >
+                {item.text}
+              </MenuItem>
+            );
+          })}
+        </Menu>
+      </Sider>
+      <Layout className="site-layout">
+        <Header className="site-header " style={{ padding: 0 }}>
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
               onClick: toggle,
-            })}
-            Alumni Management System
-          </Header>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: '0px 0px',
-              padding: 24,
-              minHeight: '100vh',
-            }}
-          >
-            <Switch>
-              <Route path='/' exact = {true} component={Landing}></Route>
-              <Route path='/land' component={Landing}></Route> 
-            </Switch>
-          </Content>
-        </Layout>
+            }
+          )}
+          Alumni Management System
+        </Header>
+        <Content
+          className="site-layout-background"
+          style={{
+            margin: "0px 0px",
+            padding: 24,
+            minHeight: "100vh",
+          }}
+        >
+          <Switch>
+            <Route
+              path="/"
+              exact={true}
+              render={(props) => (
+                <Landing {...props} clickHandler={menuItemClickHandler} />
+              )}
+            ></Route>
+            <Route
+              path="/login"
+              render={(props) => (
+                <LogIn
+                  {...props}
+                  setUser={setUser}
+                  user={user}
+                  setIsLanding={setIsLanding}
+                />
+              )}
+            ></Route>
+          </Switch>
+        </Content>
       </Layout>
-    </BrowserRouter>
-    );
-}
-
+    </Layout>
+  );
+};
