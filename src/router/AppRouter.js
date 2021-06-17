@@ -11,6 +11,7 @@ import "./AppRouter.css";
 
 import { Landing } from "../pages/Landing/Landing";
 import { LogIn } from "../pages/LogIn/LogIn";
+import { Dashboard } from "../pages/Dashboard/Dashboard";
 
 const { Header, Sider, Content } = Layout;
 
@@ -59,7 +60,6 @@ export const AppRouter = () => {
   const menuItemClickHandler = (userType) => {
     if (isLanding) {
       setUser({
-        ...user,
         type: userType,
         isAuth: false,
       });
@@ -88,6 +88,31 @@ export const AppRouter = () => {
         icon: <UserOutlined />,
         text: "LogIn as Student",
         value: "student",
+      },
+    ];
+  } else if (
+    isLanding === false &&
+    user.type === "admin" &&
+    user.isAuth === true
+  ) {
+    menuItems = [
+      {
+        key: 1,
+        icon: <UserOutlined />,
+        text: "Dashboard",
+        value: "/dashboard",
+      },
+      {
+        key: 2,
+        icon: <UserOutlined />,
+        text: "Add Alumni Entry",
+        value: "/admin/addEntry",
+      },
+      {
+        key: 3,
+        icon: <UserOutlined />,
+        text: "Delete Alumni Entry",
+        value: "/admin/deleteEntry",
       },
     ];
   }
@@ -147,6 +172,10 @@ export const AppRouter = () => {
                   setIsLanding={setIsLanding}
                 />
               )}
+            ></Route>
+            <Route
+              path="/dashboard"
+              render={(props) => <Dashboard {...props} />}
             ></Route>
           </Switch>
         </Content>
