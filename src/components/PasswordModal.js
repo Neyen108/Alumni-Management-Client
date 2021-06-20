@@ -32,7 +32,7 @@ export const PasswordModal = ({ passwords }) => {
       >
         {passwordsArr.map((password) => {
           return (
-            <p>
+            <p key={password[0]}>
               {" "}
               {password[0]} : {password[1]}{" "}
             </p>

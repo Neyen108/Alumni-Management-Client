@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "antd/dist/antd.css";
 import { Table, Space, Button } from "antd";
 import { PasswordModal } from "./PasswordModal";
 import { useHistory } from "react-router-dom";
 
-//TODO: batch info button
-
 export const BatchTable = ({ batches, user }) => {
   const history = useHistory();
+
   //initialize table data from batches
   const data = batches.map((batch, i) => {
     return {

@@ -12,6 +12,8 @@ import "./AppRouter.css";
 import { Landing } from "../pages/Landing/Landing";
 import { LogIn } from "../pages/LogIn/LogIn";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
+import { BatchDashboard } from "../pages/Dashboard/BatchDashboard";
+import { AlumniDetails } from "../pages/Dashboard/AlumniDetails";
 
 const { Header, Sider, Content } = Layout;
 
@@ -175,7 +177,18 @@ export const AppRouter = () => {
             ></Route>
             <Route
               path="/dashboard"
-              render={(props) => <Dashboard {...props} />}
+              exact={true}
+              render={(props) => <Dashboard {...props} user={user} />}
+            ></Route>
+            <Route
+              path="/dashboard/:batchname"
+              exact={true}
+              render={(props) => <BatchDashboard {...props} user={user} />}
+            ></Route>
+            <Route
+              path="/dashboard/:batchname/:id"
+              exact={true}
+              render={(props) => <AlumniDetails {...props} />}
             ></Route>
           </Switch>
         </Content>
