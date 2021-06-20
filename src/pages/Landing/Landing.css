@@ -1,0 +1,15 @@
+.landing {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 90vh;
+}
+
+.col-1 {
+  justify-self: center;
+  align-self: center;
+}
+
+.col-2 {
+  justify-self: center;
+  align-self: center;
+}
