@@ -14,6 +14,8 @@ import { LogIn } from "../pages/LogIn/LogIn";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { BatchDashboard } from "../pages/Dashboard/BatchDashboard";
 import { AlumniDetails } from "../pages/Dashboard/AlumniDetails";
+import { AddEntry } from "../pages/Admin/AddEntry";
+import { DeleteEntry } from "../pages/Admin/DeleteEntry";
 
 const { Header, Sider, Content } = Layout;
 
@@ -59,13 +61,15 @@ export const AppRouter = () => {
     setCollapsed(!collapsed);
   };
 
-  const menuItemClickHandler = (userType) => {
+  const menuItemClickHandler = (value) => {
     if (isLanding) {
       setUser({
-        type: userType,
+        type: value,
         isAuth: false,
       });
       history.push("/login");
+    } else {
+      history.push(value);
     }
   };
 
@@ -189,6 +193,16 @@ export const AppRouter = () => {
               path="/dashboard/:batchname/:id"
               exact={true}
               render={(props) => <AlumniDetails {...props} />}
+            ></Route>
+            <Route
+              path="/admin/addEntry"
+              exact={true}
+              render={(props) => <AddEntry {...props} />}
+            ></Route>
+            <Route
+              path="/admin/deleteEntry"
+              exact={true}
+              render={(props) => <DeleteEntry {...props} />}
             ></Route>
           </Switch>
         </Content>
