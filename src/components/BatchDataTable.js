@@ -46,8 +46,6 @@ const EditableCell = ({
   );
 };
 
-//TODO: api to edit entry
-
 export const BatchDataTable = ({ user, batchData }) => {
   const history = useHistory();
   const [form] = Form.useForm();
