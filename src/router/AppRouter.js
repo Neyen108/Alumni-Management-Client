@@ -16,6 +16,7 @@ import { BatchDashboard } from "../pages/Dashboard/BatchDashboard";
 import { AlumniDetails } from "../pages/Dashboard/AlumniDetails";
 import { AddEntry } from "../pages/Admin/AddEntry";
 import { DeleteEntry } from "../pages/Admin/DeleteEntry";
+import { EditEntry } from "../pages/Alumni/editEntry";
 
 const { Header, Sider, Content } = Layout;
 
@@ -121,6 +122,38 @@ export const AppRouter = () => {
         value: "/admin/deleteEntry",
       },
     ];
+  } else if (
+    isLanding === false &&
+    user.type === "alumni" &&
+    user.isAuth === true
+  ) {
+    menuItems = [
+      {
+        key: 1,
+        icon: <UserOutlined />,
+        text: "Dashboard",
+        value: "/dashboard",
+      },
+      {
+        key: 2,
+        icon: <UserOutlined />,
+        text: "Edit Entry",
+        value: "/alumni/editEntry",
+      },
+    ];
+  } else if (
+    isLanding === false &&
+    user.type === "student" &&
+    user.isAuth === true
+  ) {
+    menuItems = [
+      {
+        key: 1,
+        icon: <UserOutlined />,
+        text: "Dashboard",
+        value: "/dashboard",
+      },
+    ];
   }
 
   return (
@@ -203,6 +236,11 @@ export const AppRouter = () => {
               path="/admin/deleteEntry"
               exact={true}
               render={(props) => <DeleteEntry {...props} />}
+            ></Route>
+            <Route
+              path="/alumni/editEntry"
+              exact={true}
+              render={(props) => <EditEntry {...props} user={user} />}
             ></Route>
           </Switch>
         </Content>
