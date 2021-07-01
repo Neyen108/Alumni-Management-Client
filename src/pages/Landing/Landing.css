@@ -13,3 +13,15 @@
   justify-self: center;
   align-self: center;
 }
+
+.heading-main {
+  font-size: 4rem;
+}
+
+.heading-submain {
+  font-size: 1rem;
+}
+
+.heading-last {
+  font-size: 1rem;
+}

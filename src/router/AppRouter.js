@@ -4,7 +4,12 @@ import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
+  LogoutOutlined,
+  LoginOutlined,
+  UserAddOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import MenuItem from "antd/lib/menu/MenuItem";
 import "./AppRouter.css";
@@ -80,19 +85,19 @@ export const AppRouter = () => {
     menuItems = [
       {
         key: 1,
-        icon: <UserOutlined />,
+        icon: <LoginOutlined />,
         text: "LogIn as Admin",
         value: "admin",
       },
       {
         key: 2,
-        icon: <UserOutlined />,
+        icon: <LoginOutlined />,
         text: "LogIn as Alumni",
         value: "alumni",
       },
       {
         key: 3,
-        icon: <UserOutlined />,
+        icon: <LoginOutlined />,
         text: "LogIn as Student",
         value: "student",
       },
@@ -105,21 +110,27 @@ export const AppRouter = () => {
     menuItems = [
       {
         key: 1,
-        icon: <UserOutlined />,
+        icon: <HomeOutlined />,
         text: "Dashboard",
         value: "/dashboard",
       },
       {
         key: 2,
-        icon: <UserOutlined />,
+        icon: <UserAddOutlined />,
         text: "Add Alumni Entry",
         value: "/admin/addEntry",
       },
       {
         key: 3,
-        icon: <UserOutlined />,
+        icon: <DeleteOutlined />,
         text: "Delete Alumni Entry",
         value: "/admin/deleteEntry",
+      },
+      {
+        key: 4,
+        icon: <LogoutOutlined />,
+        text: "Logout",
+        value: "/",
       },
     ];
   } else if (
@@ -130,15 +141,21 @@ export const AppRouter = () => {
     menuItems = [
       {
         key: 1,
-        icon: <UserOutlined />,
+        icon: <HomeOutlined />,
         text: "Dashboard",
         value: "/dashboard",
       },
       {
         key: 2,
-        icon: <UserOutlined />,
+        icon: <EditOutlined />,
         text: "Edit Entry",
         value: "/alumni/editEntry",
+      },
+      {
+        key: 3,
+        icon: <LogoutOutlined />,
+        text: "Logout",
+        value: "/",
       },
     ];
   } else if (
@@ -149,9 +166,15 @@ export const AppRouter = () => {
     menuItems = [
       {
         key: 1,
-        icon: <UserOutlined />,
+        icon: <HomeOutlined />,
         text: "Dashboard",
         value: "/dashboard",
+      },
+      {
+        key: 2,
+        icon: <LogoutOutlined />,
+        text: "Logout",
+        value: "/",
       },
     ];
   }
