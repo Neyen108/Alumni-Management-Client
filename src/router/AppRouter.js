@@ -4,7 +4,12 @@ import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
+  LogoutOutlined,
+  LoginOutlined,
+  UserAddOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import MenuItem from "antd/lib/menu/MenuItem";
 import "./AppRouter.css";
@@ -14,6 +19,9 @@ import { LogIn } from "../pages/LogIn/LogIn";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { BatchDashboard } from "../pages/Dashboard/BatchDashboard";
 import { AlumniDetails } from "../pages/Dashboard/AlumniDetails";
+import { AddEntry } from "../pages/Admin/AddEntry";
+import { DeleteEntry } from "../pages/Admin/DeleteEntry";
+import { EditEntry } from "../pages/Alumni/editEntry";
 
 const { Header, Sider, Content } = Layout;
 
@@ -59,13 +67,15 @@ export const AppRouter = () => {
     setCollapsed(!collapsed);
   };
 
-  const menuItemClickHandler = (userType) => {
+  const menuItemClickHandler = (value) => {
     if (isLanding) {
       setUser({
-        type: userType,
+        type: value,
         isAuth: false,
       });
       history.push("/login");
+    } else {
+      history.push(value);
     }
   };
 
@@ -75,19 +85,19 @@ export const AppRouter = () => {
     menuItems = [
       {
         key: 1,
-        icon: <UserOutlined />,
+        icon: <LoginOutlined />,
         text: "LogIn as Admin",
         value: "admin",
       },
       {
         key: 2,
-        icon: <UserOutlined />,
+        icon: <LoginOutlined />,
         text: "LogIn as Alumni",
         value: "alumni",
       },
       {
         key: 3,
-        icon: <UserOutlined />,
+        icon: <LoginOutlined />,
         text: "LogIn as Student",
         value: "student",
       },
@@ -100,21 +110,71 @@ export const AppRouter = () => {
     menuItems = [
       {
         key: 1,
-        icon: <UserOutlined />,
+        icon: <HomeOutlined />,
         text: "Dashboard",
         value: "/dashboard",
       },
       {
         key: 2,
-        icon: <UserOutlined />,
+        icon: <UserAddOutlined />,
         text: "Add Alumni Entry",
         value: "/admin/addEntry",
       },
       {
         key: 3,
-        icon: <UserOutlined />,
+        icon: <DeleteOutlined />,
         text: "Delete Alumni Entry",
         value: "/admin/deleteEntry",
+      },
+      {
+        key: 4,
+        icon: <LogoutOutlined />,
+        text: "Logout",
+        value: "/",
+      },
+    ];
+  } else if (
+    isLanding === false &&
+    user.type === "alumni" &&
+    user.isAuth === true
+  ) {
+    menuItems = [
+      {
+        key: 1,
+        icon: <HomeOutlined />,
+        text: "Dashboard",
+        value: "/dashboard",
+      },
+      {
+        key: 2,
+        icon: <EditOutlined />,
+        text: "Edit Entry",
+        value: "/alumni/editEntry",
+      },
+      {
+        key: 3,
+        icon: <LogoutOutlined />,
+        text: "Logout",
+        value: "/",
+      },
+    ];
+  } else if (
+    isLanding === false &&
+    user.type === "student" &&
+    user.isAuth === true
+  ) {
+    menuItems = [
+      {
+        key: 1,
+        icon: <HomeOutlined />,
+        text: "Dashboard",
+        value: "/dashboard",
+      },
+      {
+        key: 2,
+        icon: <LogoutOutlined />,
+        text: "Logout",
+        value: "/",
       },
     ];
   }
@@ -189,6 +249,21 @@ export const AppRouter = () => {
               path="/dashboard/:batchname/:id"
               exact={true}
               render={(props) => <AlumniDetails {...props} />}
+            ></Route>
+            <Route
+              path="/admin/addEntry"
+              exact={true}
+              render={(props) => <AddEntry {...props} />}
+            ></Route>
+            <Route
+              path="/admin/deleteEntry"
+              exact={true}
+              render={(props) => <DeleteEntry {...props} />}
+            ></Route>
+            <Route
+              path="/alumni/editEntry"
+              exact={true}
+              render={(props) => <EditEntry {...props} user={user} />}
             ></Route>
           </Switch>
         </Content>

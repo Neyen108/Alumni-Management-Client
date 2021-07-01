@@ -29,7 +29,7 @@ export const LogIn = ({ setUser, user, setIsLanding }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/login",
+        `http://localhost:5000/api/${user.type}/login`,
         {
           username: values.username,
           password: values.password,
@@ -37,7 +37,7 @@ export const LogIn = ({ setUser, user, setIsLanding }) => {
       );
 
       const userData = await response.data;
-
+      console.log(userData);
       //set the user
       setUser({
         ...user,
