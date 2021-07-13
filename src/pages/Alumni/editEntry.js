@@ -120,7 +120,7 @@ export const EditEntry = () => {
               rules={[{ required: true }]}
               initialValue={alumniData.CGPA}
             >
-              <InputNumber />
+              <InputNumber disabled />
             </Form.Item>
 
             <Form.Item

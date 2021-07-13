@@ -22,6 +22,7 @@ import { AlumniDetails } from "../pages/Dashboard/AlumniDetails";
 import { AddEntry } from "../pages/Admin/AddEntry";
 import { DeleteEntry } from "../pages/Admin/DeleteEntry";
 import { EditEntry } from "../pages/Alumni/editEntry";
+import { AddBatch } from "../pages/Admin/AddBatch";
 
 const { Header, Sider, Content } = Layout;
 
@@ -128,6 +129,12 @@ export const AppRouter = () => {
       },
       {
         key: 4,
+        icon: <UserAddOutlined />,
+        text: "Add Batch",
+        value: "/admin/addBatch",
+      },
+      {
+        key: 5,
         icon: <LogoutOutlined />,
         text: "Logout",
         value: "/",
@@ -264,6 +271,11 @@ export const AppRouter = () => {
               path="/alumni/editEntry"
               exact={true}
               render={(props) => <EditEntry {...props} user={user} />}
+            ></Route>
+            <Route
+              path="/admin/addBatch"
+              exact={true}
+              render={(props) => <AddBatch {...props} user={user} />}
             ></Route>
           </Switch>
         </Content>
